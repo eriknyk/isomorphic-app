@@ -1,3 +1,10 @@
+/**
+ * Isomorphic Demo App
+ * Client
+ *
+ * @author Erik Amaru Ortiz <aortiz.erik@gmail.com>
+ */
+
 'use strict';
 
 import debug from 'debug';
