@@ -5,7 +5,7 @@ module.exports = {
     path: 'comments',
     getComponents (cb) {
         require.ensure([], (require) => {
-            cb(null, require('./components/list.jsx'));
+            cb(null, require('./components/Comments.jsx'));
         });
     }
 };

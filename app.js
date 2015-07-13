@@ -9,5 +9,7 @@ let app = new Fluxible({
 app.registerStore(require('./stores/ApplicationStore'));
 app.registerStore(require('./stores/TimeStore'));
 app.registerStore(require('./stores/PageStore'));
+app.registerStore(require('./stores/PageStore'));
+app.registerStore(require('./bundles/comments/stores/CommentStore'));
 
 export default app;

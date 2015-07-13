@@ -12,7 +12,7 @@ var routes = {
   childRoutes: [
     { path: 'about', component: About },
     { path: 'home', component: Home, default: true },
-    require('./modules/comments')
+    require('./bundles/comments')
   ]
 };
 
