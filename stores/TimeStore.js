@@ -1,38 +1,41 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
 'use strict';
-var createStore = require('fluxible/addons').createStore;
 
+import BaseStore from 'fluxible/addons/BaseStore';
 
-var TimeStore = createStore({
-    storeName: 'TimeStore',
-    initialize: function () {
+class TimeStore extends BaseStore {
+    constructor (dispatcher) {
+        super(dispatcher);
+
         this.time = new Date();
-    },
-    handleTimeChange: function (payload) {
+    }
+
+    handleTimeChange (payload) {
         this.time = new Date();
         this.emitChange();
-    },
-    handlers: {
-        'CHANGE_ROUTE': 'handleTimeChange',
-        'UPDATE_TIME': 'handleTimeChange'
-    },
-    getState: function () {
+    }
+
+    getState () {
         return {
             time: this.time.toString()
         };
-    },
-    dehydrate: function () {
+    }
+
+    dehydrate () {
         return {
             time: this.time.toString()
         };
-    },
-    rehydrate: function (state) {
+    }
+
+    rehydrate (state) {
         this.time = new Date(state.time);
     }
-});
+}
 
 
-module.exports = TimeStore;
+TimeStore.storeName = 'TimeStore',
+TimeStore.handlers = {
+    'CHANGE_ROUTE': 'handleTimeChange',
+    'UPDATE_TIME': 'handleTimeChange'
+};
+
+export default TimeStore;

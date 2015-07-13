@@ -1,33 +1,37 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
 'use strict';
-var createStore = require('fluxible/addons').createStore;
 
-var PageStore = createStore({
-    storeName: 'PageStore',
-    initialize: function () {
+import BaseStore from 'fluxible/addons/BaseStore';
+
+class PageStore extends BaseStore {
+    constructor (dispatcher) {
+        super(dispatcher);
+
         this.content = 'initial content...';
-    },
-    handleContentChange: function (payload) {
+    }
+
+    handleContentChange (payload) {
         this.content = 'content for page with id '+payload.id;
         this.emitChange();
-    },
-    handlers: {
-        'LOAD_PAGE': 'handleContentChange'
-    },
-    getState: function () {
+    }
+
+    getState () {
         return {
             content: this.content
         };
-    },
-    dehydrate: function () {
+    }
+
+    dehydrate () {
         return this.getState();
-    },
-    rehydrate: function (state) {
+    }
+
+    rehydrate (state) {
         this.content = state.content;
     }
-});
+}
 
-module.exports = PageStore;
+PageStore.storeName = 'PageStore';
+PageStore.handlers = {
+    'LOAD_PAGE': 'handleContentChange'
+};
+
+export default PageStore;

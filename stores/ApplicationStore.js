@@ -1,38 +1,41 @@
-/**
- * Copyright 2014, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
 'use strict';
-var createStore = require('fluxible/addons').createStore;
 
-var ApplicationStore = createStore({
-    storeName: 'ApplicationStore',
-    handlers: {
-        'CHANGE_ROUTE': 'handleNavigate'
-    },
-    initialize: function () {
+import BaseStore from 'fluxible/addons/BaseStore';
+
+class ApplicationStore extends BaseStore {
+    constructor (dispatcher) {
+        super(dispatcher);
+
         this.currentRoute = null;
-    },
-    handleNavigate: function (route) {
+    }
+
+    handleNavigate (route) {
         if (this.currentRoute && route.path === this.currentRoute.path) {
             return;
         }
 
         this.currentRoute = route;
         this.emitChange();
-    },
-    getState: function () {
+    }
+
+    getState () {
         return {
             route: this.currentRoute
         };
-    },
-    dehydrate: function () {
+    }
+
+    dehydrate () {
         return this.getState();
-    },
-    rehydrate: function (state) {
+    }
+
+    rehydrate (state) {
         this.currentRoute = state.route;
     }
-});
+}
 
+ApplicationStore.storeName = 'ApplicationStore';
+ApplicationStore.handlers = {
+    'CHANGE_ROUTE': 'handleNavigate'
+};
 
-module.exports = ApplicationStore;
+export default ApplicationStore;
