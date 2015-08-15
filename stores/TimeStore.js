@@ -16,13 +16,13 @@ class TimeStore extends BaseStore {
 
     getState () {
         return {
-            time: this.time.toString()
+            time: this.time.toUTCString()
         };
     }
 
     dehydrate () {
         return {
-            time: this.time.toString()
+            time: this.time.toUTCString()
         };
     }
 

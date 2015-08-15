@@ -13,14 +13,25 @@ let debug = Debug('Isomorphic App');
 let HtmlComponent = React.createFactory(require('./components/Html.jsx'));
 
 export default (req, res, next) => {
-    let context = app.createContext();
+    //let context = app.createContext();
+    let context = app.createContext({
+        req: req,
+        res: res
+    });
 
     debug('Executing navigate action:', req.path);
 
     let location = new Location(req.originalUrl);
 
     Router.run(app.getComponent(), location, (error, initialState, transition) => {
+        if (transition.isCancelled) {
+            return res.redirect(302, transition.redirectInfo.pathname);
+        }
+
         context.executeAction(navigateAction, initialState, function (err) {
+            if (err) {
+                return next(err);
+            }
 
             if (initialState) {
                 debug('Exposing context state');
@@ -55,7 +66,7 @@ export default (req, res, next) => {
             } else {
                 let err = new Error();
                 err.status = 404;
-                next(err)
+                return next(err)
             }
         });
     });
